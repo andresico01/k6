@@ -2,9 +2,8 @@ name: K6 API Performance Tests
 on:
   push:
     branches: [ "trunk", "main", "master" ] 
-  pull_request:
-    branches: [ "trunk", "main", "master" ]
-  workflow_dispatch:
+permissions:
+  contents: write
 
 jobs:
   k6-test:
