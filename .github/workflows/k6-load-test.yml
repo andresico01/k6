@@ -1,7 +1,8 @@
 name: K6 API Performance Tests
+
 on:
   push:
-    branches: [ "trunk", "main", "master" ] 
+    branches: [ "trunk","feature/**" ] 
 permissions:
   contents: write
 
@@ -11,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: build docker image
         run:  docker build -t k6image .
@@ -28,7 +29,7 @@ jobs:
 
       - name: Deploy Report to GitHub Pages for base line
         if: always()
-        uses: peaceiris/actions-gh-pages@v4
+        uses: peaceiris/actions-gh-pages@v5
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./reporte_linea_base.html    
