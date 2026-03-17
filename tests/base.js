@@ -3,16 +3,17 @@ import { ENV,HEADERS } from '../config/env.js';
 import { thresholds } from '../config/thresholds.js';
 import { PlaceHolderClient } from '../api/placeHolderClient.js';
 import { configureReporter} from '../utils/reporter.js';
+import { check } from 'k6';
 
 export const handleSummary = configureReporter('Linea Base');
 
 // 1. Instanciamos el cliente en el Init Context (fuera de las funciones)
 const client = new PlaceHolderClient(ENV.BASE_URL, HEADERS);
-const payload = {
+const payload = JSON.stringify({
     title: 'foo',
     body: 'bar',
-    userId: 1
-  };
+    userId: 1,
+  });
 
 export const options = {
   scenarios: {
@@ -39,12 +40,14 @@ export const options = {
 export function getFlow() {
   const id = Math.floor(Math.random() * 100);
   console.log(`[GET] Consultando id: ${id}`);
-  client.getMethod(`/todos/${id}`);
+  const response = client.getMethod(`/todos/${id}`);
+  check(response, { [`status is 200`]: (r) => r.status === 200 });
   sleep(1);
 }
 
 export function postFlow() {
   console.log(`[POST] Creando nueva tarea`);
-  client.setBody(payload).postMethod('/todos');
+  const response = client.setBody(payload).postMethod('/todos');
+  check(response, { [`status is 200`]: (r) => r.status === 201 });
   sleep(2);
 }

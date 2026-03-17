@@ -14,12 +14,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup k6
-        uses: grafana/setup-k6-action@v1
-      
-      - name: Run Base (Smoke) Test
-        run: k6 run tests/base.js
-        
+      - name: build docker image
+        run:  docker build -t k6image .
+
+      - name: Run base line Test
+        run: docker run --rm -i -v ${PWD}:/app -w /app k6image run  tests/base.js
+
+      - name: Check docker image  
+        run: docker images
+
+      - name: Run loand Test
+        run: docker run --rm -i -v ${PWD}:/app -w /app k6image run  tests/load.js  
+
+
+      - name: Deploy Report to GitHub Pages for base line
+        if: always()
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./reporte_linea_base.html    
       # You can uncomment these to run them in CI, but usually Load/Stress tests
       # shouldn't run on every single commit as they take longer and use external resources.
       # - name: Run Load Test

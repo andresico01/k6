@@ -17,7 +17,9 @@ export const options = {
 
 export default function () {
   const client = new PlaceHolderClient(ENV.BASE_URL,HEADERS);
-  client.getMethod("/todos/2");
+  const id = Math.floor(Math.random() * 100);
+  const response = client.getMethod(`/todos/${id}`);
+  check(response, { [`status is 200`]: (r) => r.status === 200 });
   sleep(1);
   
 }

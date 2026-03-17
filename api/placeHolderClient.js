@@ -1,5 +1,5 @@
 import http from 'k6/http';
-import { check } from 'k6';
+
 import exec from 'k6/execution';
 
 /**
@@ -28,15 +28,7 @@ export class PlaceHolderClient {
 
     const url = this.baseUrl + path;
     const params = { headers: this.headers };
-     console.log(`request de servicio ${method} ${path} url is:`,url);
-    console.log(`request de servicio ${method} ${path} body is:`,this.body);
-    // Ejecución dinámica
     const res = http.request(method, url, body, params);
-    console.log(`respueta de servicio ${method} ${path} status is:`,res.status);
-    console.log(`respueta de servicio ${method} ${path} body is:`,res.body);
-    // Check genérico
-    check(res, { [`${method} ${path} status is 200`]: (r) => r.status === 200 });
-    
     return res;
   }
 
