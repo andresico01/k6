@@ -16,6 +16,7 @@ const payload = JSON.stringify({
   });
 
 export const options = {
+  
   scenarios: {
     // Escenario 1: Consultas GET
     consulta_tareas: {

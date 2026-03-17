@@ -7,6 +7,7 @@ import { configureReporter} from '../utils/reporter.js';
 export const handleSummary = configureReporter('carga');
 
 export const options = {
+  
   stages: [
     { duration: '30s', target: 20 }, 
     { duration: '1m', target: 20 },  
