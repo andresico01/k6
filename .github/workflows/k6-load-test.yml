@@ -1,0 +1,26 @@
+name: K6 API Performance Tests
+on:
+  push:
+    branches: [ "trunk", "main", "master" ] 
+  pull_request:
+    branches: [ "trunk", "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  k6-test:
+    name: Run k6 performance tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup k6
+        uses: grafana/setup-k6-action@v1
+      
+      - name: Run Base (Smoke) Test
+        run: k6 run tests/base.js
+        
+      # You can uncomment these to run them in CI, but usually Load/Stress tests
+      # shouldn't run on every single commit as they take longer and use external resources.
+      # - name: Run Load Test
+        # run: k6 run tests/load.js
