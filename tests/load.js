@@ -1,4 +1,4 @@
-import { sleep } from 'k6';
+import { sleep,check } from 'k6';
 import { ENV,HEADERS } from '../config/env.js';
 import { thresholds } from '../config/thresholds.js';
 import { PlaceHolderClient } from '../api/placeHolderClient.js';
