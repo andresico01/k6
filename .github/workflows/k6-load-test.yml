@@ -14,6 +14,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
+      - name: Prepare permissions
+        run: chmod -R 777 .  
+
       - name: build docker image
         run:  docker build -t k6image .
 
